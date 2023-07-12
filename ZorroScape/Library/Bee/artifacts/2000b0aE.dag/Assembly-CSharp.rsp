@@ -362,6 +362,7 @@
 "Assets/Scripts/ApiRest/Environment.cs"
 "Assets/Scripts/ApiRest/Requests.cs"
 "Assets/Scripts/Entity/Entity.cs"
+"Assets/Scripts/Goal/Goal.cs"
 "Assets/Scripts/Player/Player.cs"
 -langversion:9.0
 

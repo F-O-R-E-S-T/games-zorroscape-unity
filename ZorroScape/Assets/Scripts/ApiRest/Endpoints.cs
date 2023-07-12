@@ -4,5 +4,5 @@ using UnityEngine;
 public class Endpoints : ScriptableObject
 {
     public string DevelopEndpoint = "localhost:3000";
-    public string StateEndpoint = "/state";
+    public string StateEndpoint = "/api/v1/idle/current";
 }
