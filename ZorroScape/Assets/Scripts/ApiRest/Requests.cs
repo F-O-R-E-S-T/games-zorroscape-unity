@@ -6,20 +6,11 @@ using UnityEngine.Networking;
 public class Requests : MonoBehaviour
 {
     [SerializeField] private Endpoints _endpoints;
-    private ApiData previousData;
-
-    [System.Serializable]
-    public class ApiData
-    {
-        public int x;
-        public int y;
-        public bool jumping;
-        public int attacking;
-    }
+    public ApiData PreviousData;
 
     private IEnumerator Start()
     {
-        previousData = new ApiData();
+        PreviousData = new ApiData();
 
         yield return StartCoroutine(GET());
     }
@@ -38,13 +29,7 @@ public class Requests : MonoBehaviour
                 ApiData data = JsonUtility.FromJson<ApiData>(jsonData);
 
                 // Compara el contenido del JSON actual con el anterior
-                if (!DataHasChanged(data))
-                {
-                    // El contenido no ha cambiado, realiza una nueva solicitud después de 1 segundo
-                    yield return new WaitForSeconds(1f);
-                    yield return StartCoroutine(GET());
-                }
-                else
+                if (DataHasChanged(data))
                 {
                     // El contenido ha cambiado, puedes continuar con el siguiente paso de la recursión
                     Debug.Log("Contenido del JSON ha cambiado");
@@ -54,7 +39,12 @@ public class Requests : MonoBehaviour
                     Debug.Log("Valor de y: " + data.y);
                     Debug.Log("Estado de jumping: " + data.jumping);
                     Debug.Log("Valor de attacking: " + data.attacking);
+
+                    PreviousData = data;
                 }
+
+                yield return new WaitForSeconds(1f);
+                yield return StartCoroutine(GET());
             }
             else
             {
@@ -65,15 +55,24 @@ public class Requests : MonoBehaviour
 
     private bool DataHasChanged(ApiData newData)
     {
-        if (newData.x != previousData.x ||
-            newData.y != previousData.y ||
-            newData.jumping != previousData.jumping ||
-            newData.attacking != previousData.attacking)
+        if (newData.x != PreviousData.x ||
+            newData.y != PreviousData.y ||
+            newData.jumping != PreviousData.jumping ||
+            newData.attacking != PreviousData.attacking)
         {
-            previousData = newData;
+            PreviousData = newData;
             return true;
         }
 
         return false;
     }
+}
+
+[System.Serializable]
+public class ApiData
+{
+    public int x;
+    public int y;
+    public bool jumping;
+    public int attacking;
 }

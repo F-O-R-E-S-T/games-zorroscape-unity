@@ -9,28 +9,31 @@ public class Entity : MonoBehaviour
     public States CurrentState = new States();
 
 
-    public void Move(Vector2 direction, Rigidbody2D objectToMove)
+    public void Move(Vector2 direction, Rigidbody2D objectToMove, bool jump)
     {
         if (direction == Vector2.zero) return;
 
         _moveDirection = direction;
-        MoveToTarget(_moveDirection, objectToMove);
+        MoveToTarget(_moveDirection, objectToMove, jump);
         //objectToMove.transform.position = (Vector2)objectToMove.transform.position + direction;
     }
 
-    private void MoveToTarget(Vector2 targetPosition, Rigidbody2D objectToMove)
+    private void MoveToTarget(Vector2 targetPosition, Rigidbody2D objectToMove, bool jump)
     {
         if ((Vector2)objectToMove.transform.position != targetPosition)
         {
             Vector2 direction = (targetPosition - (Vector2)objectToMove.transform.position).normalized;
-            objectToMove.velocity = targetPosition.normalized * 3;
+            if(jump)
+                objectToMove.velocity = targetPosition.normalized * 7;
+            else
+                objectToMove.velocity = targetPosition.normalized * 3;
         }
     }
 
 
     public void Attack(Vector2 direction, Rigidbody2D objectToMove, GameObject objectToDestroy)
     {
-        Move(direction, objectToMove);
+        Move(direction, objectToMove, false);
         objectToDestroy.SetActive(false);
     }
 }
