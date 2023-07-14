@@ -9,12 +9,22 @@ public class Entity : MonoBehaviour
     public States CurrentState = new States();
 
 
-    public void Move(Vector2 direction, Rigidbody2D objectToMove, bool jump)
+    public void Move(Vector2 direction, Rigidbody2D objectToMove, bool jump, int attack, GameObject _bulletPrefab = null)
     {
         if (direction == Vector2.zero) return;
 
-        _moveDirection = direction;
-        MoveToTarget(_moveDirection, objectToMove, jump);
+
+        if(attack != 0)
+        {
+            Attack(direction, objectToMove, _bulletPrefab, attack);
+        }
+        else
+        {
+            _moveDirection = direction;
+            MoveToTarget(_moveDirection, objectToMove, jump);
+        }
+
+        
         //objectToMove.transform.position = (Vector2)objectToMove.transform.position + direction;
     }
 
@@ -31,10 +41,14 @@ public class Entity : MonoBehaviour
     }
 
 
-    public void Attack(Vector2 direction, Rigidbody2D objectToMove, GameObject objectToDestroy)
+    public void Attack(Vector2 direction, Rigidbody2D objectToMove, GameObject objectToGenerate, int attack)
     {
-        Move(direction, objectToMove, false);
-        objectToDestroy.SetActive(false);
+
+        Debug.Log("Attack= " + attack);
+        GameObject go = Instantiate(objectToGenerate, objectToMove.transform.position, Quaternion.identity);
+        Debug.Log("go name= " + go.name);
+        Vector2 attackDirection = new Vector2(attack, 0);
+        go.GetComponent<Bullet>().Shoot(attackDirection.normalized, 5);
     }
 }
 

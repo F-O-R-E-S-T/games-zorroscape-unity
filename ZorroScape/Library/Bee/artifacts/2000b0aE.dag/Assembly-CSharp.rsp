@@ -365,6 +365,7 @@
 "Assets/Scripts/Frog.cs"
 "Assets/Scripts/Goal/Goal.cs"
 "Assets/Scripts/Player/AnimationManager.cs"
+"Assets/Scripts/Player/Bullet.cs"
 "Assets/Scripts/Player/Player.cs"
 "Assets/Scripts/UI/LifeUIController.cs"
 -langversion:9.0

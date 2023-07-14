@@ -16,4 +16,8 @@ public class AnimationManager : MonoBehaviour
         _anim = GetComponent<Animator>();
     }
 
+    public void Update()
+    {
+        ObjectAnimator.SetInteger("State", CurrentState);
+    }
 }

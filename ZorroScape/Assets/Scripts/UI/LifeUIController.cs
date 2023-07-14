@@ -11,6 +11,9 @@ public class LifeUIController : MonoBehaviour
     [SerializeField] private GameObject _losePanel;
     [SerializeField] private Button _restartButton;
 
+    [SerializeField] private GameObject _winPanel;
+    [SerializeField] private Button _restartWinButton;
+
     private void Awake()
     {
         _restartButton.onClick.AddListener(() =>
@@ -18,6 +21,11 @@ public class LifeUIController : MonoBehaviour
             //Time.timeScale = 1;
             SceneManager.LoadScene("SampleScene");
         });
+        _restartWinButton.onClick.AddListener(() =>
+        {
+            SceneManager.LoadScene("SampleScene");
+        });
+
     }
 
     private void Update()
@@ -28,6 +36,11 @@ public class LifeUIController : MonoBehaviour
         {
             //Time.timeScale = 0;
             _losePanel.SetActive(true);
+        }
+
+        if(Time.timeScale == 0)
+        {
+            _winPanel.SetActive(true);
         }
     }
 }
